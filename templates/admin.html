@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <p> Количество пользователей: ${users} </p>
+    <p> Количество сессий: ${sessions} </p>
+    Выключить сервер:
+    <form action="/admin" method="POST">
+        <label>Пароль: <input type="password" name="password"> </label>
+        <br>
+        <label>Время: <input type="text" name="time"> </label>
+        <br>
+        <input type="submit">
+    </form>
+</body>
+</html>

@@ -40,4 +40,8 @@ public class AccountService {//session - уникальный id сессии
         return false;
     }
 
+    public int getCountUsers(){ return users.size(); }
+
+    public int getCountSessions(){ return  sessions.size(); }
+
 }

@@ -19,9 +19,9 @@ import java.util.Map;
 //response.setStatus(HttpServletResponse.SC_OK);
 // throw ServletException
 
-public class Mainpage extends HttpServlet {
+public class MainPage extends HttpServlet {
     private AccountService accountService;
-    public Mainpage(AccountService accountService){
+    public MainPage(AccountService accountService){
         this.accountService = accountService;
     }
 
