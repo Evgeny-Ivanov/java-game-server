@@ -20,6 +20,9 @@ public class SingUp extends HttpServlet {
 
     private AccountService accountService;
 
+    public static final String RESPONSE_SUCCESS = "Вы молодец, регистрация прошла успешно";
+    public static final String RESPONSE_ERROR = "Вы молодец, но что то пошло не так";
+
     public SingUp(AccountService accountService) {
         this.accountService = accountService;
     }
@@ -29,7 +32,7 @@ public class SingUp extends HttpServlet {
         Map<String,Object> pageVariables = new HashMap<>();
 
         response.setContentType("text/html;charset=utf-8");
-        response.getWriter().println(PageGenerator.getPage("singUp.html", pageVariables));
+        response.getWriter().print(PageGenerator.getPage("singUp.html", pageVariables));
     }
 
     @Override
@@ -45,14 +48,14 @@ public class SingUp extends HttpServlet {
 
         boolean result = accountService.addUser(login, profile);
         if(result){
-            pageVariables.put("result", "Вы молодец, регистрация прошла успешно");
+            pageVariables.put("result", RESPONSE_SUCCESS);
         }
         else {
-            pageVariables.put("result", "Вы молодец, но что то пошло не так");
+            pageVariables.put("result", RESPONSE_ERROR);
         }
 
         PrintWriter writer = response.getWriter();
-        writer.println(PageGenerator.getPage("result.html",pageVariables));
+        writer.print(PageGenerator.getPage("result.html",pageVariables));
     }
 
 }

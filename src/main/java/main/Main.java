@@ -9,6 +9,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
  * @author v.chibrikov
  */
 public class Main {
+    public static final String URL_SINGUP = "/singUp";
+
     public static void main(String[] args) throws Exception {
         AccountService accountService = new AccountService();
 
@@ -20,7 +22,7 @@ public class Main {
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(singIn), "/singIn");
-        context.addServlet(new ServletHolder(singUp), "/singUp");
+        context.addServlet(new ServletHolder(singUp), URL_SINGUP);
         context.addServlet(new ServletHolder(mainpage), "/");
         context.addServlet(new ServletHolder(logout), "/logout");
         context.addServlet(new ServletHolder(admin), "/admin");

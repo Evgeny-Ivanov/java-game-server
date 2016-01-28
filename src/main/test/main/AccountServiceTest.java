@@ -1,6 +1,7 @@
 package main;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -13,7 +14,7 @@ public class AccountServiceTest {
     @NotNull
     private final UserProfile testUser = new UserProfile("testLogin", "testPassword", "testEmail");
 
-    @org.junit.Test
+    @Test
     public void testAddUser() throws Exception {
         boolean result1 = accountService.addUser(testUser.getLogin(), testUser);
 
@@ -29,7 +30,7 @@ public class AccountServiceTest {
         assertFalse(result2);
     }
 
-    @org.junit.Test
+    @Test
     public void testAddSession() throws Exception {
         final String idSession  = "testIdSession";
         boolean result1 = accountService.addSession(idSession,testUser);
@@ -46,7 +47,7 @@ public class AccountServiceTest {
         assertFalse(result2);
     }
 
-    @org.junit.Test
+    @Test
     public void testRemoveSession() throws Exception {
         final String idSession  = "testIdSession";
         boolean resultAdd = accountService.addSession(idSession, testUser);
@@ -62,7 +63,7 @@ public class AccountServiceTest {
         assertFalse(resultRemove2);
     }
 
-    @org.junit.Test
+    @Test
     public void testGetCountUsers() throws Exception {
         int startCountUsers = accountService.getCountUsers();
         accountService.addUser(testUser.getLogin(), testUser);
@@ -74,18 +75,18 @@ public class AccountServiceTest {
         assertEquals(accountService.getCountUsers(), startCountUsers + 2);
     }
 
-    @org.junit.Test
+    @Test
     public void testGetCountSessions() throws Exception {
         int startCountSessions = accountService.getCountSessions();
         accountService.addSession("1", testUser);
-        accountService.addSession("2", testUser);
+        accountService.addSession("1", testUser);
         assertEquals(accountService.getCountSessions(), startCountSessions + 1);
 
         UserProfile testUser2 = new UserProfile("Незнаю что", "сюда", "написать");
-        accountService.addUser("3", testUser2);
+        accountService.addSession("2", testUser2);
         assertEquals(accountService.getCountSessions(), startCountSessions + 2);
 
-        accountService.removeSession("3");
+        accountService.removeSession("2");
         assertEquals(accountService.getCountSessions(), startCountSessions + 1);
     }
 
