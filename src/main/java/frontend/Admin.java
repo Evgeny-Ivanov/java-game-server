@@ -1,6 +1,7 @@
 package frontend;
 
 import main.AccountService;
+import org.eclipse.jetty.server.Server;
 import templater.PageGenerator;
 
 import javax.servlet.http.HttpServlet;
@@ -16,8 +17,10 @@ import java.util.Map;
  */
 public class Admin extends HttpServlet {
     private AccountService accountService;
-    private final String  PASSWORD = "password";
-    public Admin(AccountService accountService){
+    public static final String  PASSWORD = "password";
+    private Server server;
+    public Admin(AccountService accountService,Server server){
+        this.server = server;
         this.accountService = accountService;
     }
 
@@ -28,7 +31,7 @@ public class Admin extends HttpServlet {
         pageVariables.put("sessions", accountService.getCountSessions());
 
         response.setContentType("text/html;charset=utf-8");
-        response.getWriter().println(PageGenerator.getPage("admin.html", pageVariables));
+        response.getWriter().print(PageGenerator.getPage("admin.html", pageVariables));
     }
 
     @Override
@@ -43,12 +46,16 @@ public class Admin extends HttpServlet {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("\nОстановка");
-            System.exit(0);
+            try {
+                server.stop();
+                System.out.println("\nОстановка");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("result","Неверный пароль");
+        pageVariables.put("result", "Неверный пароль");
         response.setContentType("text/html;charset=utf-8");
         PrintWriter writer = response.getWriter();
         writer.println(PageGenerator.getPage("result.html", pageVariables));

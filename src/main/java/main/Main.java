@@ -13,12 +13,13 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         AccountService accountService = new AccountService();
+        Server server = new Server(8888);
 
         SingIn singIn = new SingIn(accountService);
         SingUp singUp = new SingUp(accountService);
         MainPage mainpage = new MainPage(accountService);
         Logout logout = new Logout(accountService);
-        Admin admin = new Admin(accountService);
+        Admin admin = new Admin(accountService,server);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(singIn), "/singIn");
@@ -27,10 +28,11 @@ public class Main {
         context.addServlet(new ServletHolder(logout), "/logout");
         context.addServlet(new ServletHolder(admin), "/admin");
 
-        Server server = new Server(8888);
+
         server.setHandler(context);
 
         server.start();
         server.join();
+
     }
 }

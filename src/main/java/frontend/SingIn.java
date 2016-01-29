@@ -19,6 +19,9 @@ import java.util.Map;
 public class SingIn extends HttpServlet {
 
     private AccountService accountService;
+    public static final String RESPONSE_SUCCESS = "Авторизация прошла успешно, вы молодец";
+    public static final String RESPONSE_ALREADY_SINGIN = "Вы уже авторизованы, вы молодец";
+    public static final String RESPONSE_ERROR = "Что то пошло не так, но вы молодец";
 
     public SingIn(AccountService accountService) {
         this.accountService = accountService;
@@ -29,7 +32,7 @@ public class SingIn extends HttpServlet {
         Map<String,Object> pageVariables = new HashMap<>();
 
         response.setContentType("text/html;charset=utf-8");
-        response.getWriter().println(PageGenerator.getPage("singIn.html",pageVariables));
+        response.getWriter().print(PageGenerator.getPage("singIn.html",pageVariables));
     }
 
     @Override
@@ -45,17 +48,17 @@ public class SingIn extends HttpServlet {
             String sessionId = session.getId();
             boolean result = accountService.addSession(sessionId,profile);
             if(result) {
-                pageVariables.put("result", "Авторизация прошла успешно, вы молодец");
+                pageVariables.put("result", RESPONSE_SUCCESS);
             } else {
-                pageVariables.put("result", "Вы уже авторизованы, вы молодец");
+                pageVariables.put("result", RESPONSE_ALREADY_SINGIN);
             }
         } else {
-            pageVariables.put("result", "Что то пошло не так, но вы молодец");
+            pageVariables.put("result", RESPONSE_ERROR);
         }
 
         response.setContentType("text/html;charset=utf-8");
         PrintWriter writer = response.getWriter();
-        writer.println(PageGenerator.getPage("result.html",pageVariables));
+        writer.print(PageGenerator.getPage("result.html", pageVariables));
     }
 
 }

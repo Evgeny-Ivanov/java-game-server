@@ -4,6 +4,7 @@ import main.AccountService;
 
 import main.UserProfile;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import templater.PageGenerator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+import static frontend.Helpers.*;
 
 import static org.mockito.Mockito.*;
 
@@ -23,8 +25,7 @@ import static org.junit.Assert.*;
  * Created by stalker on 28.01.16.
  */
 public class SingUpTest {
-    private AccountService accountServer = new AccountService();
-    private UserProfile testUser = new UserProfile("testLogin", "testPassword", "testEmail");
+    private AccountService accountService = spy(new AccountService());
 
     @Test
     public void testDoGet() throws Exception {
@@ -32,7 +33,7 @@ public class SingUpTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = getMockedResponse(stringWriter);
 
-        SingUp spySingUp = spy(new SingUp(accountServer));
+        SingUp spySingUp = spy(new SingUp(accountService));
 
         spySingUp.doGet(request,response);
 
@@ -46,7 +47,7 @@ public class SingUpTest {
         HttpServletResponse response = getMockedResponse(stringWriter);//имитируем response
         HttpServletRequest request = getMockedRequest();//имитируем request
 
-        SingUp spySingUp = spy(new SingUp(accountServer));
+        SingUp spySingUp = spy(new SingUp(accountService));
 
         spySingUp.doPost(request, response);
 
@@ -55,7 +56,8 @@ public class SingUpTest {
         String testResponseString = PageGenerator.getPage("result.html", pageVariables);
 
         assertEquals(testResponseString, stringWriter.toString());
-        //verify(accountServer, times(1)).addUser();//проверяем сколько раз был вызван метод ??
+        UserProfile profile = accountService.getUser(testUser.getLogin());
+        verify(accountService, times(1)).addUser(testUser.getLogin(), profile);
 
         final StringWriter stringWriter2 = new StringWriter();
         response = getMockedResponse(stringWriter2);
@@ -64,26 +66,9 @@ public class SingUpTest {
         spySingUp.doPost(request, response);
         testResponseString = PageGenerator.getPage("result.html", pageVariables);
         assertEquals(testResponseString, stringWriter2.toString());
+
     }
 
-    private HttpServletResponse getMockedResponse(StringWriter stringWriter) throws IOException {
-        HttpServletResponse response = mock(HttpServletResponse.class);
-
-        final PrintWriter writer = new PrintWriter(stringWriter);//с помощью этой штуки будем писать в наш поток
-        when(response.getWriter()).thenReturn(writer);
-
-        return response;
-    }
-
-    private HttpServletRequest getMockedRequest() {
-        HttpServletRequest request = mock(HttpServletRequest.class);
-
-        when(request.getParameter("login")).thenReturn(testUser.getLogin());
-        when(request.getParameter("password")).thenReturn(testUser.getPassword());
-        when(request.getParameter("email")).thenReturn(testUser.getEmail());
-
-        return request;
-    }
 
 
 }

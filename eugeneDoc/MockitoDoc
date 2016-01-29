@@ -1,0 +1,54 @@
+    //*Женяdoc
+
+    anyInt() - (возвращает всегда -1) для передачи в функцию , если значение не важно
+
+    doThrow(new IOException()).when(mock).close(); - выбросить исключение, когда вызовут метод close mock объекта - для void метода
+    или - when(mock.close()).thenThrow(new IOExeption());
+
+    verify(mock).close(); - проверить вызывался ли метод 1 раз(по умолчанию)
+    verify(mockedList).add("one") - были ли вызваны методы add с параметром "one" и clear
+    По умолчанию все методы mock объекта возвращают default'ные значение, false для boolean, 0 для int, пустые коллекции, null для остальных объектов
+    verify(mockedList, times(3)).add(«three times»); - проверить что метод add вызывался ровно 3 раза
+    никогда ~ never() ~ times(0) verify(mockedList, never()).add(«never happened»);
+    spy - частичный mock объект - использует реальный объект и заменяет только некоторые его методы
+
+    //как минимум, как максимум
+    verify(mockedList, atLeastOnce()).add(«three times»);
+    verify(mockedList, atLeast(2)).add(«five times»);
+    verify(mockedList, atMost(5)).add(«three times»);
+
+    matches("...") - использование регулярок
+    endsWith("we")
+    contains("dsf")
+    startsWith("sdfa")
+    argThat(function()) - своя регулярка
+
+    when(request.getMethod()).thenCallRealMethod() - вызвать реальный метод для mock
+
+    verifyZeroInteractions
+
+    //проверить то что передавали в функцию
+    mockOb.function("s");
+    mockOb.function("a");
+    ArgumentCaptor<String> arguments = ArgumentCaptor.forClass(String.class);
+    verify(mockOb,times(3)).function(arguments.capture());
+    assertEquals("[s, a]", arguments.getAllValues().toString());
+
+    reset(mockOb) - сбросить мок
+
+    validateMockitoUsage(); - метод диагностики
+
+    when(mockedObject.processMethod(anyString())).thenAnswer(new Answer<string>() {
+
+        public String answer(InvocationOnMock invocation) {
+            // we can take method arguments as array of objects
+            Object[] args = invocation.getArguments();
+            return "called with arguments: " + args[0];
+        }
+
+    }); //более умная заглужка(стаб)
+
+    verifyNoMoreInteractions(mockedObject); gпроверить что вызыватся только нужный методы
+
+    InOrder inOrder = inOrder(mockedObject); - для проверки последовательности вызовов методов
+    inOrder.verify(mockedObject).setStringValue("1");

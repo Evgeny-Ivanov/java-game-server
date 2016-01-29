@@ -40,7 +40,7 @@ public class MainPage extends HttpServlet {
 
         response.setContentType("text/html;charset=utf-8");
         PrintWriter writer = response.getWriter();
-        writer.println(PageGenerator.getPage("mainpage.html", pageVariables));
+        writer.print(PageGenerator.getPage("mainpage.html", pageVariables));
     }
 
 }
