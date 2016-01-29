@@ -1,0 +1,44 @@
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Game</title>
+    <script type="text/javascript">
+        var ws;
+
+        init = function () {
+            var myForm = document.forms[0];
+            myForm.onsubmit = function(e){
+                e.preventDefault();
+                var message = this.elements[0].value;
+                console.log(message);
+                sendMessage(message);
+            }
+            ws = new WebSocket("ws://localhost:8888/gameplay");
+
+            ws.onopen = function (event) {
+                console.log("onOpen");
+            }
+
+            ws.onmessage = function (event) {
+                console.log("onMessage",event.data);
+            }
+
+            ws.onclose = function (event) {
+                console.log("onClose")
+            }
+
+        };
+
+        function sendMessage(message) {
+            ws.send(message);
+        }
+
+    </script>
+</head>
+<body onload="init();">
+    <form>
+        <input type="text">
+        <input type="submit">
+    </form>
+</body>
+</html>

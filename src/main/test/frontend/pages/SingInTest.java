@@ -1,8 +1,6 @@
-package frontend;
+package frontend.pages;
 
 import main.AccountService;
-import main.UserProfile;
-import org.eclipse.jetty.server.Server;
 import org.junit.Test;
 import templater.PageGenerator;
 
@@ -15,7 +13,6 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import static frontend.Helpers.*;
 
 
 /**
@@ -29,11 +26,11 @@ public class SingInTest {
     public void testDoGet() throws Exception {
         SingIn singIn = spy(new SingIn(accountService));
         final StringWriter stringWriter = new StringWriter();
-        accountService.addUser(testUser.getLogin(), testUser);
+        accountService.addUser(Helpers.testUser.getLogin(), Helpers.testUser);
 
-        HttpServletResponse response = getMockedResponse(stringWriter);
-        HttpServletRequest request = getMockedRequest();
-        singIn.doGet(request,response);
+        HttpServletResponse response = Helpers.getMockedResponse(stringWriter);
+        HttpServletRequest request = Helpers.getMockedRequest();
+        singIn.doGet(request, response);
 
         Map<String, Object> pageVariables = new HashMap<>();
         String testResponseString = PageGenerator.getPage("singIn.html", pageVariables);
@@ -44,12 +41,12 @@ public class SingInTest {
     public void testDoPost() throws Exception {
         SingIn singIn = spy(new SingIn(accountService));
         final StringWriter stringWriter = new StringWriter();
-        accountService.addUser(testUser.getLogin(), testUser);
+        accountService.addUser(Helpers.testUser.getLogin(), Helpers.testUser);
 
-        HttpServletResponse response = getMockedResponse(stringWriter);
-        HttpServletRequest request = getMockedRequest();
+        HttpServletResponse response = Helpers.getMockedResponse(stringWriter);
+        HttpServletRequest request = Helpers.getMockedRequest();
         singIn.doPost(request,response);
-        verify(accountService, times(1)).addSession(idSession,testUser);
+        verify(accountService, times(1)).addSession(Helpers.idSession, Helpers.testUser);
 
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("result", SingIn.RESPONSE_SUCCESS);

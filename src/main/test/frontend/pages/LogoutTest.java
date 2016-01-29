@@ -1,22 +1,18 @@
-package frontend;
+package frontend.pages;
 
 import main.AccountService;
-import main.UserProfile;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import templater.PageGenerator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-import static frontend.Helpers.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -28,18 +24,18 @@ public class LogoutTest {
 
     @Before
     public void addSession(){
-        accountService.addSession(idSession,testUser);
+        accountService.addSession(Helpers.idSession, Helpers.testUser);
     }
 
     @Test
     public void testDoGet() throws Exception {
         final StringWriter stringWriter = new StringWriter();
-        HttpServletRequest request = getMockedRequest();
-        HttpServletResponse response = getMockedResponse(stringWriter);
+        HttpServletRequest request = Helpers.getMockedRequest();
+        HttpServletResponse response = Helpers.getMockedResponse(stringWriter);
 
         Logout logout = spy(new Logout(accountService));
         logout.doGet(request,response);
-        verify(accountService, times(1)).removeSession(idSession);
+        verify(accountService, times(1)).removeSession(Helpers.idSession);
 
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("result", Logout.RESPONSE_SUCCESS);

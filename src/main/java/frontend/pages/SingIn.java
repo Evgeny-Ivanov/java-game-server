@@ -1,4 +1,4 @@
-package frontend;
+package frontend.pages;
 
 import main.AccountService;
 import main.UserProfile;
@@ -32,7 +32,7 @@ public class SingIn extends HttpServlet {
         Map<String,Object> pageVariables = new HashMap<>();
 
         response.setContentType("text/html;charset=utf-8");
-        response.getWriter().print(PageGenerator.getPage("singIn.html",pageVariables));
+        response.getWriter().print(PageGenerator.getPage("singIn.html", pageVariables));
     }
 
     @Override

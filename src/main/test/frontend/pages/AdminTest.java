@@ -1,9 +1,7 @@
-package frontend;
+package frontend.pages;
 
 import main.AccountService;
 import org.eclipse.jetty.server.Server;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import templater.PageGenerator;
 
@@ -14,7 +12,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import static frontend.Helpers.*;
+import static frontend.pages.Helpers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 

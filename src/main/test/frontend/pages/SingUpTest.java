@@ -1,21 +1,17 @@
-package frontend;
+package frontend.pages;
 
 import main.AccountService;
 
 import main.UserProfile;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import templater.PageGenerator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-import static frontend.Helpers.*;
 
 import static org.mockito.Mockito.*;
 
@@ -31,7 +27,7 @@ public class SingUpTest {
     public void testDoGet() throws Exception {
         final StringWriter stringWriter = new StringWriter();
         HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = getMockedResponse(stringWriter);
+        HttpServletResponse response = Helpers.getMockedResponse(stringWriter);
 
         SingUp spySingUp = spy(new SingUp(accountService));
 
@@ -44,8 +40,8 @@ public class SingUpTest {
     @Test
     public void testDoPost() throws Exception {
         final StringWriter stringWriter = new StringWriter();
-        HttpServletResponse response = getMockedResponse(stringWriter);//имитируем response
-        HttpServletRequest request = getMockedRequest();//имитируем request
+        HttpServletResponse response = Helpers.getMockedResponse(stringWriter);//имитируем response
+        HttpServletRequest request = Helpers.getMockedRequest();//имитируем request
 
         SingUp spySingUp = spy(new SingUp(accountService));
 
@@ -56,11 +52,11 @@ public class SingUpTest {
         String testResponseString = PageGenerator.getPage("result.html", pageVariables);
 
         assertEquals(testResponseString, stringWriter.toString());
-        UserProfile profile = accountService.getUser(testUser.getLogin());
-        verify(accountService, times(1)).addUser(testUser.getLogin(), profile);
+        UserProfile profile = accountService.getUser(Helpers.testUser.getLogin());
+        verify(accountService, times(1)).addUser(Helpers.testUser.getLogin(), profile);
 
         final StringWriter stringWriter2 = new StringWriter();
-        response = getMockedResponse(stringWriter2);
+        response = Helpers.getMockedResponse(stringWriter2);
         pageVariables.clear();
         pageVariables.put("result", SingUp.RESPONSE_ERROR);
         spySingUp.doPost(request, response);

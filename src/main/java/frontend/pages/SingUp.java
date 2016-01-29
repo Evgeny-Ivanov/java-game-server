@@ -1,4 +1,4 @@
-package frontend;
+package frontend.pages;
 
 import main.AccountService;
 import main.UserProfile;
