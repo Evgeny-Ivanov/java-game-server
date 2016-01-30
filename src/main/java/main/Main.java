@@ -1,8 +1,12 @@
 package main;
 
+import base.GameMechanics;
+import base.WebSocketService;
 import frontend.game.GameServlet;
 import frontend.game.WebSocketGameServlet;
+import frontend.game.WebSocketServiceImpl;
 import frontend.pages.*;
+import mechanics.GameMechanicsImpl;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -23,8 +27,11 @@ public class Main {
         Logout logout = new Logout(accountService);
         Admin admin = new Admin(accountService,server);
 
-        WebSocketGameServlet webSocketGameServlet = new WebSocketGameServlet();
+        WebSocketService webSocketService = new WebSocketServiceImpl();
+        GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
+        WebSocketGameServlet webSocketGameServlet = new WebSocketGameServlet(accountService, gameMechanics, webSocketService);
         GameServlet gameServlet = new GameServlet();
+
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(singIn), "/singIn");
@@ -36,9 +43,9 @@ public class Main {
         context.addServlet(new ServletHolder(gameServlet), "/game");
 
         server.setHandler(context);
-
         server.start();
-        server.join();
+
+        gameMechanics.run();
 
     }
 }
