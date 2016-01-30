@@ -22,8 +22,8 @@ public class GameServlet extends HttpServlet {
                        HttpServletResponse response) throws ServletException, IOException {
         Map<String, Object> pageVariables = new HashMap<>();
 
-        response.getWriter().println(PageGenerator.getPage("game.html", pageVariables));
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().println(PageGenerator.getPage("game.html", pageVariables));
     }
 }

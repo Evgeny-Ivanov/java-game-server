@@ -48,5 +48,4 @@ public class GameSession {
         return users.get(name);
     }
 
-
 }

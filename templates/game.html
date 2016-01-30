@@ -1,26 +1,29 @@
 <html>
-<head>
+<head lang="ru">
     <meta charset="UTF-8"/>
     <title>Game</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script type="text/javascript">
         var ws;
 
         init = function () {
-            var myForm = document.forms[0];
-            myForm.onsubmit = function(e){
-                e.preventDefault();
-                var message = this.elements[0].value;
-                console.log(message);
-                sendMessage(message);
-            }
             ws = new WebSocket("ws://localhost:8888/gameplay");
-
+            gameButton.onclick = function(e){
+                console.log("click");
+                e.preventDefault();
+                sendMessage("increment");
+            }
             ws.onopen = function (event) {
                 console.log("onOpen");
             }
 
             ws.onmessage = function (event) {
                 console.log("onMessage",event.data);
+                var data = event.data;
+                if(status == "increment"){
+                    user1.innerHTML(data.name + " : " + data.score);
+                }
+
             }
 
             ws.onclose = function (event) {
@@ -30,15 +33,13 @@
         };
 
         function sendMessage(message) {
+            console.log("send message");
             ws.send(message);
         }
 
     </script>
 </head>
 <body onload="init();">
-    <form>
-        <input type="text">
-        <input type="submit">
-    </form>
+    <button id="gameButton">press</button>
 </body>
 </html>

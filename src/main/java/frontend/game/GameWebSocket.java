@@ -62,7 +62,14 @@ public class GameWebSocket {
     }
 
     public void startGame(GameUser user) {
-
+        JSONObject json = new JSONObject();
+        json.put("status","start");
+        json.put("data","hello");
+        try {
+            thisSession.getRemote().sendString(json.toJSONString());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void gameOver(GameUser user, String nameWiner) {
@@ -71,7 +78,7 @@ public class GameWebSocket {
             jsonStart.put("status", "finish");
             jsonStart.put("win", nameWiner);
             thisSession.getRemote().sendString(jsonStart.toJSONString());
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.print(e.toString());
         }
     }

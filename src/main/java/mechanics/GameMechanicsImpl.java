@@ -3,7 +3,6 @@ package mechanics;
 import base.GameMechanics;
 import base.GameUser;
 import base.WebSocketService;
-import main.UserProfile;
 import org.eclipse.jetty.util.ArrayQueue;
 
 import java.util.*;
@@ -13,7 +12,7 @@ import java.util.*;
  */
 public class GameMechanicsImpl implements GameMechanics{
     private static final int STEP_TIME = 100;
-    private static final int GAME_TIME = 2 * 1000;
+    private static final int GAME_TIME = 60 * 1000;
     private Queue<String> waiter = new ArrayQueue<>();
     private Set<GameSession> sessions = new HashSet<>();
     private WebSocketService webSocketService;
@@ -74,6 +73,7 @@ public class GameMechanicsImpl implements GameMechanics{
         sessions.add(gameSession);
         for (String name : waiter){
             GameUser user = gameSession.getUserByName(name);
+            nameToGame.put(name, gameSession);
             webSocketService.notifyStartGame(user);
         }
         waiter.clear();
