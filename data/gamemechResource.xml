@@ -1,0 +1,5 @@
+<class name="mechanics.GamemechResource">
+    <countPlayers>2</countPlayers>
+    <timeGame>60000</timeGame>
+    <stepTime>100</stepTime>
+</class>

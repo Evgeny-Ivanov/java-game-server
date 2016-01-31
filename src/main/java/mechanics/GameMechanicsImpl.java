@@ -4,6 +4,7 @@ import base.GameMechanics;
 import base.GameUser;
 import base.WebSocketService;
 import org.eclipse.jetty.util.ArrayQueue;
+import resourceSystem.ResourceContext;
 
 import java.util.*;
 
@@ -11,21 +12,21 @@ import java.util.*;
  * Created by stalker on 30.01.16.
  */
 public class GameMechanicsImpl implements GameMechanics{
-    private static final int STEP_TIME = 100;
-    private static final int GAME_TIME = 1 * 1000;
+    private GamemechResource gamemechResource;
     private Queue<String> waiter = new ArrayQueue<>();
     private Set<GameSession> sessions = new HashSet<>();
     private WebSocketService webSocketService;
     private Map<String, GameSession> nameToGame = new HashMap<>();
 
     public GameMechanicsImpl(WebSocketService webSocketService) {
+        gamemechResource = (GamemechResource)ResourceContext.getInstance().get(GamemechResource.class);
         this.webSocketService = webSocketService;
     }
 
     @Override
     public void addUser(String user) {
         waiter.add(user);
-        if(waiter.size() >= GameSession.countUser) {
+        if(waiter.size() >= gamemechResource.getCountPlayers()) {
             System.out.println("start game: count: " + waiter.size());
             startGame();
         }
@@ -49,7 +50,7 @@ public class GameMechanicsImpl implements GameMechanics{
         while(true){
             gmStep();
             try {
-                Thread.sleep(STEP_TIME);
+                Thread.sleep(gamemechResource.getStepTime());
             } catch (InterruptedException e){
                 e.printStackTrace();
             }
@@ -58,7 +59,7 @@ public class GameMechanicsImpl implements GameMechanics{
 
     private void gmStep() {
         for(GameSession session : sessions){
-            if(session.getSessinTime() > GAME_TIME){
+            if(session.getSessinTime() > gamemechResource.getTimeGame()){
                 System.out.println("gameover");
                 Iterator<GameUser> iteratorUser = session.getUsers().values().iterator();
                 while (iteratorUser.hasNext()){

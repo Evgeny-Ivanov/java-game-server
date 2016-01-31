@@ -10,7 +10,6 @@ import java.util.*;
  */
 public class GameSession {
     private final long startTime;
-    public static final int countUser = 2;
     private GameUser winner;
 
     private Map<String, GameUser> users = new HashMap<>();
