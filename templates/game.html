@@ -18,10 +18,31 @@
             }
 
             ws.onmessage = function (event) {
-                console.log("onMessage",event.data);
+                console.log(event.data);
                 var data = event.data;
-                if(status == "increment"){
-                    user1.innerHTML(data.name + " : " + data.score);
+                data = JSON.parse(data);
+                if(data.status == "start"){
+                    console.log("start");
+                    $(".status").html("Жми кнопку");
+                    $("#gameButton").show();
+                    for(i=0;i<data.users.length;i++) {
+                        var name = data.users[i];
+                        var score = 0;
+                        $(".players").append("\<li" + " id=" + "\""+name+"\"\>"+name + " : " + score +"\</li\>");
+                    }
+                }
+
+                if(data.status == "increment"){
+                    console.log("increment");
+                    var name = data.name;
+                    var score = data.score;
+                    $("#"+name).html(name + " : " + score);
+
+                }
+                if(data.status == "finish"){
+                    console.log("finish");
+                    $(".status").html("Выйграл : " + data.win);
+                    $("#gameButton").hide();
                 }
 
             }
@@ -40,6 +61,10 @@
     </script>
 </head>
 <body onload="init();">
-    <button id="gameButton">press</button>
+    <div class="status">Ждите</div>
+    <button id="gameButton" style="display:none;">press</button>
+    <ul class="players">
+
+    </ul>
 </body>
 </html>

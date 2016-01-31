@@ -4,6 +4,7 @@ import base.GameUser;
 import base.WebSocketService;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -20,9 +21,13 @@ public class WebSocketServiceImpl implements WebSocketService {
         userSockets.get(enemyUser.getMyName()).setScore(user);
     }
 
-    public void notifyStartGame(GameUser user) {
-        GameWebSocket gameWebSocket = userSockets.get(user.getMyName());
-        gameWebSocket.startGame(user);
+    public void notifyStartGame(Map<String,GameUser> users) {
+        Iterator<GameUser> iteratorUser = users.values().iterator();
+        while (iteratorUser.hasNext()) {
+            System.out.println("startGame "+" gameWebSocket.startGame" );
+            GameWebSocket gameWebSocket = userSockets.get(iteratorUser.next().getMyName());
+            gameWebSocket.startGame(users);
+        }
     }
 
     @Override

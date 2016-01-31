@@ -8,9 +8,12 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -61,10 +64,16 @@ public class GameWebSocket {
         }
     }
 
-    public void startGame(GameUser user) {
+    public void startGame(Map<String,GameUser> users) {
+        JSONArray jsonArrayUsers = new JSONArray();
+        Iterator<GameUser> iteratorUser = users.values().iterator();
+        while (iteratorUser.hasNext()){
+            jsonArrayUsers.add(iteratorUser.next().getMyName());
+        }
+
         JSONObject json = new JSONObject();
         json.put("status","start");
-        json.put("data","hello");
+        json.put("users",jsonArrayUsers);
         try {
             thisSession.getRemote().sendString(json.toJSONString());
         }catch (IOException e){

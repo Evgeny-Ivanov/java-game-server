@@ -16,10 +16,11 @@ import org.eclipse.jetty.servlet.ServletHolder;
  */
 public class Main {
     public static final String URL_SINGUP = "/singUp";
+    public static final int PORT = 8888;
 
     public static void main(String[] args) throws Exception {
         AccountService accountService = new AccountService();
-        Server server = new Server(8888);
+        Server server = new Server(PORT);
 
         SingIn singIn = new SingIn(accountService);
         SingUp singUp = new SingUp(accountService);

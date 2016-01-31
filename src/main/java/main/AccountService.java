@@ -11,12 +11,11 @@ public class AccountService {//session - уникальный id сессии
     Map<String, UserProfile> sessions = new HashMap<>();
 
     public AccountService(){
-        UserProfile profile1 =  new UserProfile("test1","1","email@mail.ru");
-        addUser(profile1.getLogin(),profile1);
-        UserProfile profile2 =  new UserProfile("test2","1","email@mail.ru");
-        addUser(profile2.getLogin(),profile2);
-        UserProfile profile3 =  new UserProfile("test3","1","email@mail.ru");
-        addUser(profile3.getLogin(),profile3);
+        for(int i=1; i<6; i++){
+            UserProfile profile1 =  new UserProfile("test"+i,"1","email@mail.ru");
+            addUser(profile1.getLogin(),profile1);
+        }
+
     }
 
     public boolean addUser(String login, UserProfile profile){

@@ -18,6 +18,7 @@ public class WebSocketGameServlet extends WebSocketServlet {
     private AccountService accountService;
     private GameMechanics gameMechanics;
     private WebSocketService webSocketService;
+    private static final int TIMEOUT = 60000000;
 
     public WebSocketGameServlet(AccountService accountService, GameMechanics gameMechanics, WebSocketService webSocketService){
         this.accountService = accountService;
@@ -26,7 +27,7 @@ public class WebSocketGameServlet extends WebSocketServlet {
     }
     @Override
     public void configure(WebSocketServletFactory factory){
-        factory.getPolicy().setIdleTimeout(60000);
+        factory.getPolicy().setIdleTimeout(TIMEOUT);
         factory.setCreator(new GameWebSocketCreator(accountService,gameMechanics,webSocketService));
     }
 

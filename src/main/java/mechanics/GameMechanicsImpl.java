@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class GameMechanicsImpl implements GameMechanics{
     private static final int STEP_TIME = 100;
-    private static final int GAME_TIME = 60 * 1000;
+    private static final int GAME_TIME = 1 * 1000;
     private Queue<String> waiter = new ArrayQueue<>();
     private Set<GameSession> sessions = new HashSet<>();
     private WebSocketService webSocketService;
@@ -36,6 +36,7 @@ public class GameMechanicsImpl implements GameMechanics{
         GameSession session = nameToGame.get(userName);
         GameUser user = session.getUserByName(userName);
         user.incrementMyScore();
+        session.setWinner(user);
         Iterator<GameUser> iteratorUser = session.getUsers().values().iterator();
         while (iteratorUser.hasNext()){
             GameUser enemyUser = iteratorUser.next();
@@ -74,8 +75,8 @@ public class GameMechanicsImpl implements GameMechanics{
         for (String name : waiter){
             GameUser user = gameSession.getUserByName(name);
             nameToGame.put(name, gameSession);
-            webSocketService.notifyStartGame(user);
         }
+        webSocketService.notifyStartGame(gameSession.getUsers());
         waiter.clear();
     }
 
