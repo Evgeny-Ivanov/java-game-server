@@ -2,15 +2,14 @@ package frontend.game;
 
 import base.GameMechanics;
 import base.WebSocketService;
-import main.AccountService;
-import main.UserProfile;
+import databaseService.AccountService;
+import databaseService.dataSets.UserProfile;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashSet;
-import java.util.Set;
+
 
 /**
  * Created by stalker on 29.01.16.

@@ -1,6 +1,7 @@
 package frontend.pages;
 
-import main.AccountService;
+import databaseService.AccountService;
+import databaseService.DBServiceInMemory;
 import org.junit.Test;
 import templater.PageGenerator;
 
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.*;
  */
 public class SingInTest {
 
-    private AccountService accountService = spy(new AccountService());
+    private AccountService accountService = spy(new DBServiceInMemory());
 
     @Test
     public void testDoGet() throws Exception {

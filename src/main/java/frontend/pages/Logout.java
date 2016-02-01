@@ -1,6 +1,7 @@
 package frontend.pages;
 
-import main.AccountService;
+import databaseService.AccountService;
+import databaseService.DBServiceInMemory;
 import templater.PageGenerator;
 
 import javax.servlet.http.HttpServlet;

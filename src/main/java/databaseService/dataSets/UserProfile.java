@@ -1,4 +1,4 @@
-package main;
+package databaseService.dataSets;
 
 /**
  * Created by stalker on 28.01.16.

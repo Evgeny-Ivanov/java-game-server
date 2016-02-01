@@ -3,7 +3,8 @@ package frontend.game;
 
 import base.GameMechanics;
 import base.WebSocketService;
-import main.AccountService;
+import databaseService.AccountService;
+import databaseService.DBServiceInMemory;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 

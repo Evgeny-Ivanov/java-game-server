@@ -1,4 +1,6 @@
-package main;
+package databaseService;
+
+import databaseService.dataSets.UserProfile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,11 +8,11 @@ import java.util.Map;
 /**
  * Created by stalker on 28.01.16.
  */
-public class AccountService {//session - уникальный id сессии
+public class DBServiceInMemory implements AccountService {//session - уникальный id сессии
     Map<String, UserProfile> users = new HashMap<>();
     Map<String, UserProfile> sessions = new HashMap<>();
 
-    public AccountService(){
+    public DBServiceInMemory(){
         for(int i=1; i<6; i++){
             UserProfile profile1 =  new UserProfile("test"+i,"1","email@mail.ru");
             addUser(profile1.getLogin(),profile1);

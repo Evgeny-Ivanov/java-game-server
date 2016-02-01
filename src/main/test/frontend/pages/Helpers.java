@@ -1,6 +1,6 @@
 package frontend.pages;
 
-import main.UserProfile;
+import databaseService.dataSets.UserProfile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

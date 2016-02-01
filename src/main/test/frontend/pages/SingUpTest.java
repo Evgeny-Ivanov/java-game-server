@@ -1,8 +1,9 @@
 package frontend.pages;
 
-import main.AccountService;
+import databaseService.AccountService;
+import databaseService.DBServiceInMemory;
 
-import main.UserProfile;
+import databaseService.dataSets.UserProfile;
 import org.junit.Test;
 import templater.PageGenerator;
 
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
  * Created by stalker on 28.01.16.
  */
 public class SingUpTest {
-    private AccountService accountService = spy(new AccountService());
+    private AccountService accountService = spy(new DBServiceInMemory());
 
     @Test
     public void testDoGet() throws Exception {

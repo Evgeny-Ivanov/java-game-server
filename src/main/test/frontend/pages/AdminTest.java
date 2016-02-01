@@ -1,6 +1,7 @@
 package frontend.pages;
 
-import main.AccountService;
+import databaseService.AccountService;
+import databaseService.DBServiceInMemory;
 import org.eclipse.jetty.server.Server;
 import org.junit.Test;
 import templater.PageGenerator;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.*;
  * Created by stalker on 29.01.16.
  */
 public class AdminTest {
-    AccountService accountService = new AccountService();
+    AccountService accountService = new DBServiceInMemory();
 
     @Test
     public void stopServer() throws IOException{

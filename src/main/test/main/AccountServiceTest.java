@@ -1,5 +1,7 @@
 package main;
 
+import databaseService.DBServiceInMemory;
+import databaseService.dataSets.UserProfile;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
@@ -10,7 +12,7 @@ import static org.junit.Assert.*;
  */
 public class AccountServiceTest {
     @NotNull
-    private final AccountService accountService = new AccountService();
+    private final DBServiceInMemory accountService = new DBServiceInMemory();
     @NotNull
     private final UserProfile testUser = new UserProfile("testLogin", "testPassword", "testEmail");
 

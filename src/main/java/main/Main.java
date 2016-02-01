@@ -2,6 +2,9 @@ package main;
 
 import base.GameMechanics;
 import base.WebSocketService;
+import databaseService.AccountService;
+import databaseService.DBService;
+import databaseService.DBServiceInMemory;
 import frontend.game.GameServlet;
 import frontend.game.WebSocketGameServlet;
 import frontend.game.WebSocketServiceImpl;
@@ -10,7 +13,6 @@ import mechanics.GameMechanicsImpl;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import resourceSystem.ResourceContext;
 
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -28,7 +30,7 @@ public class Main {
             port = Integer.parseInt(properties.getProperty("port"));
 
         }
-        AccountService accountService = new AccountService();
+        AccountService accountService = new DBService();
         Server server = new Server(port);
 
 

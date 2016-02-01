@@ -1,7 +1,7 @@
 package frontend.pages;
 
-import main.AccountService;
-import main.UserProfile;
+import databaseService.AccountService;
+import databaseService.dataSets.UserProfile;
 import templater.PageGenerator;
 
 import javax.servlet.http.HttpServlet;

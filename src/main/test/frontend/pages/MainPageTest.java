@@ -1,6 +1,7 @@
 package frontend.pages;
 
-import main.AccountService;
+import databaseService.AccountService;
+import databaseService.DBServiceInMemory;
 import org.junit.Test;
 import templater.PageGenerator;
 
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.when;
  * Created by stalker on 29.01.16.
  */
 public class MainPageTest {
-    private AccountService accountService = new AccountService();
+    private AccountService accountService = new DBServiceInMemory();
     @Test
     public void testDoGet() throws Exception {
         final StringWriter stringWriter = new StringWriter();
