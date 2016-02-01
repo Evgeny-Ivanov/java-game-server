@@ -12,16 +12,25 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import resourceSystem.ResourceContext;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 /**
  * @author v.chibrikov
  */
 public class Main {
-    public static final String URL_SINGUP = "/singUp";
-    public static final int PORT = 8888;
 
     public static void main(String[] args) throws Exception {
+        int port = 8000;
+        try(final FileInputStream fis = new FileInputStream("cfg/server.properties")){
+            final Properties properties = new Properties();
+            properties.load(fis);
+            port = Integer.parseInt(properties.getProperty("port"));
+
+        }
         AccountService accountService = new AccountService();
-        Server server = new Server(PORT);
+        Server server = new Server(port);
+
 
         SingIn singIn = new SingIn(accountService);
         SingUp singUp = new SingUp(accountService);
@@ -37,7 +46,7 @@ public class Main {
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(singIn), "/singIn");
-        context.addServlet(new ServletHolder(singUp), URL_SINGUP);
+        context.addServlet(new ServletHolder(singUp), "/singUp");
         context.addServlet(new ServletHolder(mainpage), "/");
         context.addServlet(new ServletHolder(logout), "/logout");
         context.addServlet(new ServletHolder(admin), "/admin");
