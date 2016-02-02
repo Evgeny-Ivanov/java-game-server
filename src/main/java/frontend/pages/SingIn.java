@@ -41,7 +41,6 @@ public class SingIn extends HttpServlet {
         String password = request.getParameter("password");
 
         Map<String,Object> pageVariables = new HashMap<>();
-
         UserProfile profile = accountService.getUser(login);
         if(profile != null && password.equals(profile.getPassword())){
             HttpSession session = request.getSession();

@@ -1,4 +1,4 @@
-package databaseService.dao;
+package databaseService.daoJDBC;
 
 import databaseService.helpers.Executor;
 import databaseService.dataSets.UserProfile;

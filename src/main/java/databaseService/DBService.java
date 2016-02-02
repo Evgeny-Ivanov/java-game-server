@@ -1,7 +1,7 @@
 package databaseService;
 
-import databaseService.dao.UserProfileDAO;
-import databaseService.dao.UserSessionDAO;
+import databaseService.daoJDBC.UserProfileDAO;
+import databaseService.daoJDBC.UserSessionDAO;
 import databaseService.dataSets.UserProfile;
 import org.jetbrains.annotations.Nullable;
 

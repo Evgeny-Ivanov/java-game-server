@@ -4,6 +4,7 @@ import base.GameMechanics;
 import base.WebSocketService;
 import databaseService.AccountService;
 import databaseService.DBService;
+import databaseService.DBServiceHibernate;
 import databaseService.DBServiceInMemory;
 import frontend.game.GameServlet;
 import frontend.game.WebSocketGameServlet;
@@ -30,7 +31,7 @@ public class Main {
             port = Integer.parseInt(properties.getProperty("port"));
 
         }
-        AccountService accountService = new DBService();
+        AccountService accountService = new DBServiceHibernate();
         Server server = new Server(port);
 
 
