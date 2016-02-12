@@ -67,6 +67,7 @@ public class UserSessionDAO {
         Transaction transaction = session.beginTransaction();
         String hql = String.format("DELETE FROM %s", UserSession.class.getSimpleName());
         Query query = session.createQuery(hql);
+        //SQLQuery query1 = session.createSQLQuery("DELETE FROM users");
         query.executeUpdate();
         transaction.commit();
     }

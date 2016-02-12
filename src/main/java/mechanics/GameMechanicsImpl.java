@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * Created by stalker on 30.01.16.
  */
-public class GameMechanicsImpl implements GameMechanics{
+public class GameMechanicsImpl extends Thread implements GameMechanics{
     private GamemechResource gamemechResource;
     private Queue<String> waiter = new ArrayQueue<>();
     private Set<GameSession> sessions = new HashSet<>();
@@ -47,7 +47,8 @@ public class GameMechanicsImpl implements GameMechanics{
 
     @Override
     public void run() {
-        while(true){
+        System.out.println("start GameMechanics");
+        while(!Thread.interrupted()){
             gmStep();
             try {
                 Thread.sleep(gamemechResource.getStepTime());

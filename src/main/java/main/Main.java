@@ -42,7 +42,7 @@ public class Main {
         Admin admin = new Admin(accountService,server);
 
         WebSocketService webSocketService = new WebSocketServiceImpl();
-        GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
+        GameMechanicsImpl gameMechanics = new GameMechanicsImpl(webSocketService);
         WebSocketGameServlet webSocketGameServlet = new WebSocketGameServlet(accountService, gameMechanics, webSocketService);
         GameServlet gameServlet = new GameServlet();
 
@@ -58,8 +58,7 @@ public class Main {
 
         server.setHandler(context);
         server.start();
-
-        gameMechanics.run();
+        gameMechanics.start();
 
     }
 }

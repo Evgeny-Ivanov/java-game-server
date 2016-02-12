@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class UserSession implements Serializable {
     private static final long serialVersionUID = -8756689714326132798L;
 
+
     @Column(name="login")
     private String login;
 
@@ -29,6 +30,7 @@ public class UserSession implements Serializable {
     public void setSession(String session){
         this.session = session;
     }
+
 
     public UserSession(){
 
