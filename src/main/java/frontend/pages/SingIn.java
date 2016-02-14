@@ -54,12 +54,12 @@ public class SingIn extends HttpServlet {
             HttpSession session = request.getSession();
             String sessionId = session.getId();
             frontend.addSession(sessionId,profile);
-            frontend.setUserState(sessionId,UserState.PENDING_AUTHORIZED);
+            frontend.setUserState(login,UserState.PENDING_AUTHORIZED);
 
-            UserState state = frontend.getUserState(sessionId);
+            UserState state = frontend.getUserState(login);
             if(state == UserState.SUCCESSFUL_AUTHORIZED) {
                 pageVariables.put("result", RESPONSE_SUCCESS);
-                frontend.setUserState(sessionId,UserState.SLEEPS);
+                frontend.setUserState(login,UserState.SLEEPS);
             }
             if(state == UserState.UNSUCCESSFUL_AUTHORIZED){
                 pageVariables.put("result", RESPONSE_ALREADY_SINGIN);

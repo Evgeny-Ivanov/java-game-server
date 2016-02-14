@@ -57,18 +57,15 @@ public class SingUp extends HttpServlet {
 
         Map<String,Object> pageVariables = new HashMap<>();
 
-        HttpSession session = request.getSession();
-        String sessionId = session.getId();
-
         frontend.addUser(login,profile);
-        frontend.setUserState(sessionId,UserState.PENDING_REGISTRATION);
+        frontend.setUserState(login,UserState.PENDING_REGISTRATION);
 
-        UserState state = frontend.getUserState(sessionId);
+        UserState state = frontend.getUserState(login);
         System.out.println(state);
 
         if(state == UserState.SUCCESSFUL_REGISTERED){
             pageVariables.put("result", RESPONSE_SUCCESS);
-            frontend.setUserState(sessionId,UserState.SLEEPS);
+            frontend.setUserState(login,UserState.SLEEPS);
         }
         if(state == UserState.PENDING_REGISTRATION){
             pageVariables.put("result", RESPONSE_WAIT);

@@ -10,18 +10,18 @@ import messageSystem.Address;
  */
 public class MessageRemoveSessionResult extends MessageToFrontend{
     boolean result;
-    String session;
-    public MessageRemoveSessionResult(Address to, Address from, boolean result, String session){
+    UserProfile profile;
+    public MessageRemoveSessionResult(Address to, Address from, boolean result, UserProfile profile){
         super(to,from);
         this.result = result;
-        this.session = session;
+        this.profile = profile;
     }
 
     @Override
     public void exec(FrontendThread frontend){
-        System.out.println("Frontend removeSessionResult");
+        System.out.println("Frontend addSessionResult");
         if(result)
-            frontend.setUserState(session, UserState.SUCCESSFUL_LEAVING);
-        else frontend.setUserState(session, UserState.UNSUCCESSFUL_LEAVING);
+            frontend.setUserState(profile.getLogin(), UserState.SUCCESSFUL_LEAVING);
+        else frontend.setUserState(profile.getLogin(), UserState.UNSUCCESSFUL_LEAVING);
     }
 }

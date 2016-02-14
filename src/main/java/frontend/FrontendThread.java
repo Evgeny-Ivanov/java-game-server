@@ -18,7 +18,7 @@ import java.util.jar.Pack200;
 public class FrontendThread implements Runnable, Abonent{
     private Address address = new Address();
     private MessageSystem messageSystem;
-    private Map<String,UserState> sessionToState = new ConcurrentHashMap<>();
+    private Map<String,UserState> loginToState = new ConcurrentHashMap<>();
 
     public MessageSystem getMessageSystem(){
         return messageSystem;
@@ -45,16 +45,16 @@ public class FrontendThread implements Runnable, Abonent{
         messageSystem.sendMessage(message);
     }
 
-    public UserState getUserState(String sessionId){
-        if(!sessionToState.containsKey(sessionId))
-            sessionToState.put(sessionId,UserState.SLEEPS);
-        return sessionToState.get(sessionId);
+    public UserState getUserState(String login){
+        if(!loginToState.containsKey(login))
+            loginToState.put(login,UserState.SLEEPS);
+        return loginToState.get(login);
     }
 
-    public void setUserState(String sessionId, UserState state){
-        if(sessionToState.containsKey(sessionId))
-            sessionToState.replace(sessionId,state);
-        else sessionToState.put(sessionId,state);
+    public void setUserState(String login, UserState state){
+        if(loginToState.containsKey(login))
+            loginToState.replace(login,state);
+        else loginToState.put(login,state);
     }
 
     @Override

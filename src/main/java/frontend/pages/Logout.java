@@ -40,12 +40,15 @@ public class Logout extends HttpServlet {
         HttpSession session = request.getSession();
         String sessionId  =  session.getId();
         frontend.removeSession(sessionId);
-        frontend.setUserState(sessionId,UserState.PENDING_LEAVING);
+        UserProfile profile = accountService.getSession(sessionId);
 
-        UserState state = frontend.getUserState(sessionId);
+        String login = profile.getLogin();
+        frontend.setUserState(login,UserState.PENDING_LEAVING);
+
+        UserState state = frontend.getUserState(login);
         if(state == UserState.SUCCESSFUL_LEAVING) {
             pageVariables.put("result", RESPONSE_SUCCESS);
-            frontend.setUserState(sessionId, UserState.SLEEPS);
+            frontend.setUserState(login, UserState.SLEEPS);
         }
         if(state == UserState.PENDING_LEAVING){
             pageVariables.put("result",RESPONSE_WAIT);

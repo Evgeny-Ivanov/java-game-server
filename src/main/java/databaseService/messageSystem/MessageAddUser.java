@@ -22,9 +22,9 @@ public class MessageAddUser extends MessageToDatabaseService{
 
     @Override
     protected void exec(DBServiceThread dbService){
-        System.out.println("DBService addUser");
+        System.out.println("DBService addSession");
         boolean result = dbService.getAccountService().addUser(login,profile);
-        Message back = new MessageAddUserResult(from,to,result,);
+        Message back = new MessageAddUserResult(from,to,result,profile);
         dbService.getMessageSystem().sendMessage(back);
     }
 }

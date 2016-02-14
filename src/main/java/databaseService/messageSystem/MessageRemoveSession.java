@@ -21,7 +21,7 @@ public class MessageRemoveSession extends MessageToDatabaseService{
 
     @Override
     protected void exec(DBServiceThread dbService){
-        System.out.println("DBService removeSession");
+        System.out.println("DBService addSession");
         boolean result = dbService.getAccountService().removeSession(session);
         UserProfile profile = dbService.getAccountService().getSession(session);
         Message message = new MessageRemoveSessionResult(from,to,result,profile);
