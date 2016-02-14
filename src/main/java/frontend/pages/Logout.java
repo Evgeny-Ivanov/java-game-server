@@ -2,6 +2,10 @@ package frontend.pages;
 
 import databaseService.AccountService;
 import databaseService.DBServiceInMemory;
+import databaseService.DBServiceThread;
+import databaseService.dataSets.UserProfile;
+import frontend.FrontendThread;
+import frontend.UserState;
 import templater.PageGenerator;
 
 import javax.servlet.http.HttpServlet;
@@ -18,10 +22,15 @@ import java.util.Map;
  */
 public class Logout extends HttpServlet {
     private AccountService accountService;
+    private FrontendThread frontend;
+
     public static final String RESPONSE_SUCCESS =  "Вы успешно вышли";
     public static final String RESPONSE_ERROR =  "Что то не так";
-    public Logout(AccountService accountService){
+    public static final String RESPONSE_WAIT =  "Ждите";
+
+    public Logout(AccountService accountService, FrontendThread frontend) {
         this.accountService = accountService;
+        this.frontend = frontend;
     }
 
     @Override
@@ -30,10 +39,18 @@ public class Logout extends HttpServlet {
 
         HttpSession session = request.getSession();
         String sessionId  =  session.getId();
-        boolean result = accountService.removeSession(sessionId);
-        if(result){
-            pageVariables.put("result",RESPONSE_SUCCESS);
-        } else {
+        frontend.removeSession(sessionId);
+        frontend.setUserState(sessionId,UserState.PENDING_LEAVING);
+
+        UserState state = frontend.getUserState(sessionId);
+        if(state == UserState.SUCCESSFUL_LEAVING) {
+            pageVariables.put("result", RESPONSE_SUCCESS);
+            frontend.setUserState(sessionId, UserState.SLEEPS);
+        }
+        if(state == UserState.PENDING_LEAVING){
+            pageVariables.put("result",RESPONSE_WAIT);
+        }
+        if(state == UserState.UNSUCCESSFUL_LEAVING){
             pageVariables.put("result", RESPONSE_ERROR);
         }
 

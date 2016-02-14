@@ -2,18 +2,19 @@ package main;
 
 import base.GameMechanics;
 import base.WebSocketService;
-import databaseService.AccountService;
-import databaseService.DBService;
-import databaseService.DBServiceHibernate;
-import databaseService.DBServiceInMemory;
+import databaseService.*;
+import frontend.FrontendThread;
 import frontend.game.GameServlet;
 import frontend.game.WebSocketGameServlet;
 import frontend.game.WebSocketServiceImpl;
 import frontend.pages.*;
 import mechanics.GameMechanicsImpl;
+import messageSystem.Message;
+import messageSystem.MessageSystem;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.thread.ThreadPool;
 
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -31,19 +32,27 @@ public class Main {
             port = Integer.parseInt(properties.getProperty("port"));
 
         }
-        AccountService accountService = new DBServiceHibernate();
+        MessageSystem messageSystem = new MessageSystem();
+        DBServiceThread dbService = new DBServiceThread(messageSystem);
+        FrontendThread frontend = new FrontendThread(messageSystem);
+        messageSystem.addService(dbService.getAddress());
+        messageSystem.addService(frontend.getAddress());
+
+        Thread dbServiceThread = new Thread(dbService);
+        Thread frontendThread = new Thread(frontend);
+
         Server server = new Server(port);
 
-
-        SingIn singIn = new SingIn(accountService);
-        SingUp singUp = new SingUp(accountService);
-        MainPage mainpage = new MainPage(accountService);
-        Logout logout = new Logout(accountService);
-        Admin admin = new Admin(accountService,server);
+        AccountService accountService = dbService.getAccountService();
+        SingIn singIn = new SingIn(accountService,frontend);
+        SingUp singUp = new SingUp(accountService,frontend);
+        MainPage mainpage = new MainPage(accountService,frontend);
+        Logout logout = new Logout(accountService,frontend);
+        Admin admin = new Admin(accountService,frontend,server);
 
         WebSocketService webSocketService = new WebSocketServiceImpl();
         GameMechanicsImpl gameMechanics = new GameMechanicsImpl(webSocketService);
-        WebSocketGameServlet webSocketGameServlet = new WebSocketGameServlet(accountService, gameMechanics, webSocketService);
+        WebSocketGameServlet webSocketGameServlet = new WebSocketGameServlet(dbService.getAccountService(), gameMechanics, webSocketService);
         GameServlet gameServlet = new GameServlet();
 
 
@@ -58,6 +67,8 @@ public class Main {
 
         server.setHandler(context);
         server.start();
+        dbServiceThread.start();
+        frontendThread.start();
         gameMechanics.start();
 
     }

@@ -2,6 +2,8 @@ package frontend.pages;
 
 import databaseService.AccountService;
 import databaseService.DBServiceInMemory;
+import databaseService.DBServiceThread;
+import frontend.FrontendThread;
 import org.eclipse.jetty.server.Server;
 import templater.PageGenerator;
 
@@ -12,17 +14,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by stalker on 28.01.16.
  */
 public class Admin extends HttpServlet {
     private AccountService accountService;
+    private FrontendThread frontend;
+
     public static final String  PASSWORD = "password";
     private Server server;
-    public Admin(AccountService accountService,Server server){
+    public Admin(AccountService accountService, FrontendThread frontend, Server server){
         this.server = server;
         this.accountService = accountService;
+        this.frontend = frontend;
     }
 
     @Override

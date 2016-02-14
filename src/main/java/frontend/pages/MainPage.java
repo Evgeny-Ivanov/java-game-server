@@ -1,7 +1,9 @@
 package frontend.pages;
 
 import databaseService.AccountService;
+import databaseService.DBServiceThread;
 import databaseService.dataSets.UserProfile;
+import frontend.FrontendThread;
 import templater.PageGenerator;
 
 import javax.servlet.http.HttpServlet;
@@ -21,8 +23,11 @@ import java.util.Map;
 
 public class MainPage extends HttpServlet {
     private AccountService accountService;
-    public MainPage(AccountService accountService){
+    private FrontendThread frontend;
+
+    public MainPage(AccountService accountService, FrontendThread frontend) {
         this.accountService = accountService;
+        this.frontend = frontend;
     }
 
     @Override

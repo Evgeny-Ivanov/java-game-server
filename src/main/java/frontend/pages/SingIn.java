@@ -1,7 +1,11 @@
 package frontend.pages;
 
 import databaseService.AccountService;
+import databaseService.DBServiceThread;
 import databaseService.dataSets.UserProfile;
+import frontend.FrontendThread;
+import frontend.UserState;
+import messageSystem.AddressService;
 import templater.PageGenerator;
 
 import javax.servlet.http.HttpServlet;
@@ -19,12 +23,16 @@ import java.util.Map;
 public class SingIn extends HttpServlet {
 
     private AccountService accountService;
+    private FrontendThread frontend;
+
     public static final String RESPONSE_SUCCESS = "Авторизация прошла успешно, вы молодец";
     public static final String RESPONSE_ALREADY_SINGIN = "Вы уже авторизованы, вы молодец";
     public static final String RESPONSE_ERROR = "Что то пошло не так, но вы молодец";
+    public static final String RESPONSE_WAIT = "Подождите";
 
-    public SingIn(AccountService accountService) {
+    public SingIn(AccountService accountService, FrontendThread frontend) {
         this.accountService = accountService;
+        this.frontend = frontend;
     }
 
     @Override
@@ -45,11 +53,19 @@ public class SingIn extends HttpServlet {
         if(profile != null && password.equals(profile.getPassword())){
             HttpSession session = request.getSession();
             String sessionId = session.getId();
-            boolean result = accountService.addSession(sessionId,profile);
-            if(result) {
+            frontend.addSession(sessionId,profile);
+            frontend.setUserState(sessionId,UserState.PENDING_AUTHORIZED);
+
+            UserState state = frontend.getUserState(sessionId);
+            if(state == UserState.SUCCESSFUL_AUTHORIZED) {
                 pageVariables.put("result", RESPONSE_SUCCESS);
-            } else {
+                frontend.setUserState(sessionId,UserState.SLEEPS);
+            }
+            if(state == UserState.UNSUCCESSFUL_AUTHORIZED){
                 pageVariables.put("result", RESPONSE_ALREADY_SINGIN);
+            }
+            if(state == UserState.PENDING_AUTHORIZED){
+                pageVariables.put("result", RESPONSE_WAIT);
             }
         } else {
             pageVariables.put("result", RESPONSE_ERROR);
