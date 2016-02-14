@@ -17,7 +17,8 @@ public abstract class MessageToDatabaseService extends Message {
 
     @Override
     public void exec(Abonent abonent){
-        if(abonent instanceof DBService){
+        System.out.println("MessageToDatabaseService " + abonent.toString());
+        if(abonent instanceof DBServiceThread){
             exec((DBServiceThread) abonent);
         }
     }

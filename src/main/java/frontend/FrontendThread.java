@@ -29,19 +29,20 @@ public class FrontendThread implements Runnable, Abonent{
     }
 
     public void addUser(String login, UserProfile profile){
-        Message message = new MessageAddUser(address, messageSystem.getAddressService().getDBService(),login,profile);
+        Message message = new MessageAddUser(
+                messageSystem.getAddressService().getDBService(),address,login,profile);
         messageSystem.sendMessage(message);
     }
 
     public void addSession(String session, UserProfile profile){
-        Message message = new MessageAddSession(address,
-                messageSystem.getAddressService().getDBService(),session,profile);
+        Message message = new MessageAddSession(
+                messageSystem.getAddressService().getDBService(),address,session,profile);
         messageSystem.sendMessage(message);
     }
 
     public void removeSession(String session){
-        Message message = new MessageRemoveSession(address,
-                messageSystem.getAddressService().getDBService(),session);
+        Message message = new MessageRemoveSession(
+                messageSystem.getAddressService().getDBService(),address,session);
         messageSystem.sendMessage(message);
     }
 

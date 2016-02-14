@@ -18,13 +18,15 @@ public class MessageAddUser extends MessageToDatabaseService{
 
     public MessageAddUser(Address to, Address from, String login, UserProfile profile){
         super(to,from);
+        this.login = login;
+        this.profile = profile;
     }
 
     @Override
     protected void exec(DBServiceThread dbService){
-        System.out.println("DBService addSession");
+        System.out.println("DBService addUser");
         boolean result = dbService.getAccountService().addUser(login,profile);
-        Message back = new MessageAddUserResult(from,to,result,profile);
+        Message back = new MessageAddUserResult(from,to,result,login);
         dbService.getMessageSystem().sendMessage(back);
     }
 }

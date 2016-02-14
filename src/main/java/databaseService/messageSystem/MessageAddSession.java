@@ -23,9 +23,9 @@ public class MessageAddSession extends MessageToDatabaseService {
 
     @Override
     protected void exec(DBServiceThread dbService){
-        System.out.println("Frontend addSessionResult");
+        System.out.println("Frontend addSession");
         boolean result = dbService.getAccountService().addSession(session,profile);
-        Message back = new MessageAddUserResult(from,to,result,profile);
+        Message back = new MessageAddUserResult(from,to,result,profile.getLogin());
         dbService.getMessageSystem().sendMessage(back);
     }
 

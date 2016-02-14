@@ -18,6 +18,7 @@ public abstract class MessageToFrontend extends Message{
 
     @Override
     public void exec(Abonent abonent){
+        System.out.println("MessageToFrontend " + abonent.toString());
         if(abonent instanceof FrontendThread){
             exec((FrontendThread)abonent);
         }

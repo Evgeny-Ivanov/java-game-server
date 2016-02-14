@@ -11,21 +11,21 @@ import messageSystem.Message;
  */
 public class MessageAddSessionResult extends MessageToFrontend{
 
-    private UserProfile profile;
+    private String login;
     private boolean result;
 
-    public MessageAddSessionResult(Address to, Address from, boolean result, UserProfile profile){
+    public MessageAddSessionResult(Address to, Address from, boolean result, String login){
         super(to,from);
         this.result = result;
-        this.profile = profile;
+        this.login = login;
     }
 
     @Override
     public void exec(FrontendThread frontend){
         System.out.println("Frontend addSessionResult");
         if(result)
-            frontend.setUserState(profile.getLogin(), UserState.SUCCESSFUL_AUTHORIZED);
+            frontend.setUserState(login, UserState.SUCCESSFUL_AUTHORIZED);
         else
-            frontend.setUserState(profile.getLogin(), UserState.UNSUCCESSFUL_AUTHORIZED);
+            frontend.setUserState(login, UserState.UNSUCCESSFUL_AUTHORIZED);
     }
 }

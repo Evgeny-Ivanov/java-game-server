@@ -10,20 +10,21 @@ import messageSystem.Address;
  */
 public class MessageAddUserResult extends MessageToFrontend{
     private boolean result;
-    UserProfile profile;
+    String login;
 
-    public MessageAddUserResult(Address to, Address from, boolean result, UserProfile profile){
+    public MessageAddUserResult(Address to, Address from, boolean result, String login){
         super(to,from);
         this.result = result;
+        this.login = login;
     }
 
     @Override
     protected void exec(FrontendThread frontendThread){
-        System.out.println("Frontend addSessionResult");
+        System.out.println("Frontend addUserResult");
         if(result)
-            frontendThread.setUserState(profile.getLogin(),UserState.SUCCESSFUL_REGISTERED);
+            frontendThread.setUserState(login,UserState.SUCCESSFUL_REGISTERED);
         else
-            frontendThread.setUserState(profile.getLogin(),UserState.UNSUCCESSFUL_REGISTERED);
+            frontendThread.setUserState(login,UserState.UNSUCCESSFUL_REGISTERED);
     }
 
 }

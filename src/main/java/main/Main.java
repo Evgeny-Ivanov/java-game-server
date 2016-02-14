@@ -37,6 +37,8 @@ public class Main {
         FrontendThread frontend = new FrontendThread(messageSystem);
         messageSystem.addService(dbService.getAddress());
         messageSystem.addService(frontend.getAddress());
+        messageSystem.getAddressService().registerDBService(dbService.getAddress());
+        messageSystem.getAddressService().registerFrontend(frontend.getAddress());
 
         Thread dbServiceThread = new Thread(dbService);
         Thread frontendThread = new Thread(frontend);
